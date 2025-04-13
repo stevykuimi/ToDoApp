@@ -1,0 +1,46 @@
+﻿@model TodoApp.Models.TodoItem
+@{
+    ViewData["Title"] = "Edit To-Do Item";
+}
+
+<h1>Edit To-Do Item</h1>
+
+@if (!Model.IsCompleted)
+{
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DueDate"></label>
+            <input asp-for="DueDate" class="form-control" type="date" />
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+        <div class="form-check">
+            <input asp-for="IsCompleted" class="form-check-input" />
+            <label asp-for="IsCompleted" class="form-check-label"></label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+    </form>
+}
+else
+{
+    <div class="alert alert-info">
+        This item is already completed and cannot be edited.
+    </div>
+    
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

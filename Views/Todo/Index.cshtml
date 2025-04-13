@@ -1,0 +1,42 @@
+﻿@model IEnumerable<TodoApp.Models.TodoItem>
+@{
+    ViewData["Title"] = "To-Do List";
+}
+
+<h1>To-Do List</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New To-Do Item</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.DueDate.ToShortDateString()</td>
+                <td>@(item.IsCompleted ? "Completed" : "Pending")</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (!item.IsCompleted)
+                    {
+                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <form asp-action="MarkCompleted" asp-route-id="@item.Id" method="post" style="display:inline">
+                            <button type="submit" class="btn btn-success btn-sm">Mark Completed</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
