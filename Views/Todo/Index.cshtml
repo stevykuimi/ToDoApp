@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<TodoApp.Models.TodoItem>
+@using Microsoft.Extensions.Primitives
+
 @{
     ViewData["Title"] = "To-Do List";
 }
@@ -19,8 +21,30 @@
         </tr>
     </thead>
     <tbody>
+        @{
+            var isCompleted = ViewContext.HttpContext.Request.Query["isCompleted"].ToString();
+        }
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <form method="get" class="form-inline">
+                <div class="form-group">
+                    <label for="isCompletedFilter" class="mr-2">Filter:</label>
+                    <select id="isCompletedFilter"
+                            name="isCompleted"
+                            class="form-control col-3"
+                            style="min-width: 150px;"
+                            onchange="this.form.submit()">
+                        <option value="" selected="@(string.IsNullOrEmpty(isCompleted) ? "selected" : null)">All</option>
+                        <option value="false" selected="@(isCompleted == "false" ? "selected" : null)">In Progress</option>
+                        <option value="true" selected="@(isCompleted == "true" ? "selected" : null)">Completed</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+
         @foreach (var item in Model)
         {
+
             <tr>
                 <td>@item.Title</td>
                 <td>@item.DueDate.ToShortDateString()</td>
